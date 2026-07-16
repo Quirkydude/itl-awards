@@ -1,0 +1,222 @@
+﻿[
+    {
+        "Index":  1,
+        "Nominee":  "FRIMPONG",
+        "Category":  "Most Hardworking Executive (Male)",
+        "CsvTime":  "2026/07/11 12:08:25 PM GMT",
+        "FileTime":  "7/11/2026 5:08 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG_20260618_225902_035 - Emmanuel Kofi Frimpong.jpg",
+        "OutFile":  "01-frimpong.jpg"
+    },
+    {
+        "Index":  2,
+        "Nominee":  "Prayer Team",
+        "Category":  "Best department",
+        "CsvTime":  "2026/07/12 1:32:32 PM GMT",
+        "FileTime":  "7/12/2026 6:32 AM",
+        "DeltaMin":  0.1,
+        "SourceFile":  "InShot_20260712_132044275 - Vivian Makafui.jpg",
+        "OutFile":  "02-prayer-team.jpg"
+    },
+    {
+        "Index":  3,
+        "Nominee":  "Elvis Konadu",
+        "Category":  "Most sociable",
+        "CsvTime":  "2026/07/12 4:05:51 PM GMT",
+        "FileTime":  "7/12/2026 9:05 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG_6409 - Kobby Bhad(2).png",
+        "OutFile":  "03-elvis-konadu.png"
+    },
+    {
+        "Index":  4,
+        "Nominee":  "Content creation and Blogging",
+        "Category":  "Best department",
+        "CsvTime":  "2026/07/12 4:08:31 PM GMT",
+        "FileTime":  "7/12/2026 9:08 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "3d760b47-6617-4415-a72e-a5c1fc324845 - Tamakloe Kingsley.jpeg",
+        "OutFile":  "04-content-creation-and-blogging.jpeg"
+    },
+    {
+        "Index":  5,
+        "Nominee":  "Apostle Dove",
+        "Category":  "Most popular Executive",
+        "CsvTime":  "2026/07/12 4:09:56 PM GMT",
+        "FileTime":  "7/12/2026 9:09 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG_6409 - Kobby Bhad(1).png",
+        "OutFile":  "05-apostle-dove.png"
+    },
+    {
+        "Index":  6,
+        "Nominee":  "Elvis Konadu",
+        "Category":  "Most jovial person",
+        "CsvTime":  "2026/07/12 4:11:18 PM GMT",
+        "FileTime":  "7/12/2026 9:11 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG_6409 - Kobby Bhad.png",
+        "OutFile":  "06-elvis-konadu.png"
+    },
+    {
+        "Index":  7,
+        "Nominee":  "Mensah Peter Ababio",
+        "Category":  "Most Hardworking Executive (Male)",
+        "CsvTime":  "2026/07/12 6:50:09 PM GMT",
+        "FileTime":  "7/12/2026 11:50 AM",
+        "DeltaMin":  0.1,
+        "SourceFile":  "IMG_0149 - Peter Ababio.jpg",
+        "OutFile":  "07-mensah-peter-ababio.jpg"
+    },
+    {
+        "Index":  8,
+        "Nominee":  "Peter Ababio Mensah",
+        "Category":  "Most Hardworking Executive (Male)",
+        "CsvTime":  "2026/07/12 9:16:15 PM GMT",
+        "FileTime":  "7/12/2026 2:16 PM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG-20260712-WA0058 - Vivian Makafui.jpg",
+        "OutFile":  "08-peter-ababio-mensah.jpg"
+    },
+    {
+        "Index":  9,
+        "Nominee":  "Peter Ababio Mensah",
+        "Category":  "Gentleman of the year",
+        "CsvTime":  "2026/07/12 9:18:04 PM GMT",
+        "FileTime":  "7/12/2026 2:18 PM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG-20260712-WA0059 - Vivian Makafui.jpg",
+        "OutFile":  "09-peter-ababio-mensah.jpg"
+    },
+    {
+        "Index":  10,
+        "Nominee":  "Gelina Duah Tuffour",
+        "Category":  "Most popular Executive",
+        "CsvTime":  "2026/07/12 9:30:17 PM GMT",
+        "FileTime":  "7/12/2026 2:30 PM",
+        "DeltaMin":  0,
+        "SourceFile":  "Screenshot_20260712-212010 - Vivian Makafui.jpg",
+        "OutFile":  "10-gelina-duah-tuffour.jpg"
+    },
+    {
+        "Index":  11,
+        "Nominee":  "Stella Frimponmaah",
+        "Category":  "Face Of ITL (Female)",
+        "CsvTime":  "2026/07/13 9:56:14 AM GMT",
+        "FileTime":  "7/13/2026 2:56 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "temp_image_809A6F22-D828-45A5-ABAC-F8F373762FD0 - Gelina Duah Tuffour.webp",
+        "OutFile":  "11-stella-frimponmaah.webp"
+    },
+    {
+        "Index":  12,
+        "Nominee":  "Elikem and Nathaniel",
+        "Category":  "Best pal of the year (male)",
+        "CsvTime":  "2026/07/13 10:33:11 AM GMT",
+        "FileTime":  "7/13/2026 3:33 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "_30G0395 - Juliet Mensah.jpg",
+        "OutFile":  "12-elikem-and-nathaniel.jpg"
+    },
+    {
+        "Index":  13,
+        "Nominee":  "Christabel and Juliet",
+        "Category":  "Best pal of the year (female)",
+        "CsvTime":  "2026/07/13 10:39:44 AM GMT",
+        "FileTime":  "7/13/2026 3:39 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG-20251208-WA0019 - Juliet Mensah.jpg",
+        "OutFile":  "13-christabel-and-juliet.jpg"
+    },
+    {
+        "Index":  14,
+        "Nominee":  "Juliet Mensah",
+        "Category":  "Face Of ITL (Female)",
+        "CsvTime":  "2026/07/13 10:42:04 AM GMT",
+        "FileTime":  "7/13/2026 3:42 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG_0644 - Juliet Mensah.jpg",
+        "OutFile":  "14-juliet-mensah.jpg"
+    },
+    {
+        "Index":  15,
+        "Nominee":  "Christabel Nimako",
+        "Category":  "Most popular Executive",
+        "CsvTime":  "2026/07/13 10:45:13 AM GMT",
+        "FileTime":  "7/13/2026 3:45 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG_0661 - Juliet Mensah.jpg",
+        "OutFile":  "15-christabel-nimako.jpg"
+    },
+    {
+        "Index":  16,
+        "Nominee":  "Ohemaa",
+        "Category":  "Face Of ITL (Female)",
+        "CsvTime":  "2026/07/15 10:43:55 AM GMT",
+        "FileTime":  "7/15/2026 3:43 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "0G8A9941_Original - Mary Addy.jpeg",
+        "OutFile":  "16-ohemaa.jpeg"
+    },
+    {
+        "Index":  17,
+        "Nominee":  "PRECIOUS YEBOAH ATI",
+        "Category":  "Face Of ITL (Female)",
+        "CsvTime":  "2026/07/15 5:43:38 PM GMT",
+        "FileTime":  "7/15/2026 10:43 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG-20250322-WA0025(1) - Precious Ati Yeboah(3).jpg",
+        "OutFile":  "17-precious-yeboah-ati.jpg"
+    },
+    {
+        "Index":  18,
+        "Nominee":  "PRECIOUS YEBOAH ATI",
+        "Category":  "Most Hardworking Hxecutive (Female)",
+        "CsvTime":  "2026/07/15 5:44:50 PM GMT",
+        "FileTime":  "7/15/2026 10:44 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG-20250322-WA0025(1) - Precious Ati Yeboah(1).jpg",
+        "OutFile":  "18-precious-yeboah-ati.jpg"
+    },
+    {
+        "Index":  19,
+        "Nominee":  "PRECIOUS YEBOAH ATI",
+        "Category":  "Most popular Executive",
+        "CsvTime":  "2026/07/15 5:45:30 PM GMT",
+        "FileTime":  "7/15/2026 10:45 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG-20250322-WA0025(1) - Precious Ati Yeboah(2).jpg",
+        "OutFile":  "19-precious-yeboah-ati.jpg"
+    },
+    {
+        "Index":  20,
+        "Nominee":  "PRECIOUS YEBOAH ATI",
+        "Category":  "Lady of the year",
+        "CsvTime":  "2026/07/15 5:46:14 PM GMT",
+        "FileTime":  "7/15/2026 10:46 AM",
+        "DeltaMin":  0,
+        "SourceFile":  "IMG-20250322-WA0025(1) - Precious Ati Yeboah.jpg",
+        "OutFile":  "20-precious-yeboah-ati.jpg"
+    },
+    {
+        "Index":  21,
+        "Nominee":  "Blessing Antwiwaa Kwarteng",
+        "Category":  "Best pal of the year (female)",
+        "CsvTime":  "2026/07/16 12:09:15 AM GMT",
+        "FileTime":  "7/15/2026 5:09 PM",
+        "DeltaMin":  0,
+        "SourceFile":  "4M3A1862-2~2 - Vivian Makafui.jpg",
+        "OutFile":  "21-blessing-antwiwaa-kwarteng.jpg"
+    },
+    {
+        "Index":  22,
+        "Nominee":  "Sarah Seidu",
+        "Category":  "Most Hardworking Hxecutive (Female)",
+        "CsvTime":  "2026/07/16 12:11:05 AM GMT",
+        "FileTime":  "7/15/2026 5:11 PM",
+        "DeltaMin":  0,
+        "SourceFile":  "4M3A1856-2~2 - Vivian Makafui.jpg",
+        "OutFile":  "22-sarah-seidu.jpg"
+    }
+]

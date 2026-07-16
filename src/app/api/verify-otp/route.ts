@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyArkeselOTP } from "@/lib/arkesel";
-import { hasVoted } from "@/lib/otpStore";
+import { hasVoted } from "@/lib/voteStore";
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Phone and code required" }, { status: 400 });
     }
 
-    if (hasVoted(phone)) {
+    if (await hasVoted(phone)) {
       return NextResponse.json(
         { error: "This number has already voted. Each number can only vote once." },
         { status: 403 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useVoteStore } from "@/store/voteStore";
-import { categories } from "@/data/categories";
+import { voteCategories as categories } from "@/data/categories";
 
 type Props = {
   onEdit: (index: number) => void;

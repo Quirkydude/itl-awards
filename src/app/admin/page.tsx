@@ -1,12 +1,20 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { categories } from "@/data/categories";
+import toast from "react-hot-toast";
+import { voteCategories as categories } from "@/data/categories";
+import {
+  exportResultsCsv,
+  exportResultsPdf,
+  exportVotersCsv,
+  type VoterRecord,
+} from "@/lib/exportResults";
 
 type Tally = Record<string, Record<string, number>>;
 type AdminData = {
   totalVoters: number;
   tally: Tally;
+  raw?: VoterRecord[];
 };
 
 export default function AdminPage() {
@@ -14,6 +22,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [data, setData] = useState<AdminData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [error, setError] = useState("");
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
 
@@ -44,6 +53,37 @@ export default function AdminPage() {
     return () => clearInterval(interval);
   }, [authed, secret, fetchData]);
 
+  function handleExportPdf() {
+    if (!data) return;
+    setExporting(true);
+    try {
+      exportResultsPdf({
+        totalVoters: data.totalVoters,
+        tally: data.tally,
+      });
+      toast.success("Print dialog opening — choose Save as PDF");
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Export failed");
+    } finally {
+      setExporting(false);
+    }
+  }
+
+  function handleExportCsv() {
+    if (!data) return;
+    exportResultsCsv(data.tally, data.totalVoters);
+    toast.success("Results CSV downloaded");
+  }
+
+  function handleExportVoters() {
+    if (!data?.raw?.length) {
+      toast.error("No voter phone numbers yet");
+      return;
+    }
+    const count = exportVotersCsv(data.raw);
+    toast.success(`Exported ${count} phone number${count === 1 ? "" : "s"}`);
+  }
+
   if (!authed) {
     return (
       <main className="min-h-[100svh] flex items-center justify-center px-6">
@@ -65,6 +105,7 @@ export default function AdminPage() {
             onChange={(e) => setSecret(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && fetchData(secret)}
             autoFocus
+            className="verify-input"
           />
           {error && <p className="mt-2 text-xs text-ember">{error}</p>}
           <button
@@ -89,7 +130,7 @@ export default function AdminPage() {
           borderBottom: "1px solid rgba(232,200,122,0.12)",
         }}
       >
-        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="font-display text-xl font-semibold italic text-champagne">
               Live Results
@@ -99,7 +140,7 @@ export default function AdminPage() {
               every 30s
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <div
               className="px-4 py-2 rounded-xl text-center"
               style={{
@@ -110,16 +151,69 @@ export default function AdminPage() {
               <p className="font-display text-2xl font-bold text-champagne">
                 {data?.totalVoters ?? 0}
               </p>
-              <p className="font-body text-[0.65rem] text-ivory/35">
-                Total voters
-              </p>
+              <p className="font-body text-[0.65rem] text-ivory/35">Total voters</p>
             </div>
+            <button
+              className="btn-gold text-xs px-4 py-2"
+              style={{ padding: "0.65rem 1.1rem", fontSize: "0.75rem" }}
+              onClick={handleExportPdf}
+              disabled={exporting || !data}
+            >
+              {exporting ? "…" : "Export PDF"}
+            </button>
+            <button
+              className="btn-outline text-xs px-3 py-2"
+              onClick={handleExportCsv}
+              disabled={!data}
+            >
+              Results CSV
+            </button>
+            <button
+              className="btn-outline text-xs px-3 py-2"
+              onClick={handleExportVoters}
+              disabled={!data?.raw?.length}
+            >
+              Phones
+            </button>
             <button
               className="btn-outline text-xs px-3 py-2"
               onClick={() => fetchData(secret)}
               disabled={loading}
             >
               {loading ? "…" : "↻ Refresh"}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Export callout */}
+      <div className="max-w-3xl mx-auto px-4 pt-6">
+        <div
+          className="surface flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5"
+          style={{ borderRadius: "16px" }}
+        >
+          <div>
+            <p className="font-display text-lg italic text-champagne mb-1">
+              Export results
+            </p>
+            <p className="font-body text-xs text-ivory/40 leading-relaxed max-w-md">
+              PDF = branded tally sheet. Results CSV = vote counts. Phones CSV = voter numbers for
+              outreach ({data?.raw?.length ?? 0} saved).
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2 shrink-0">
+            <button className="btn-gold" onClick={handleExportPdf} disabled={!data || exporting}>
+              Export PDF
+            </button>
+            <button className="btn-outline" onClick={handleExportCsv} disabled={!data}>
+              Results CSV
+            </button>
+            <button
+              className="btn-outline"
+              onClick={handleExportVoters}
+              disabled={!data?.raw?.length}
+            >
+              Export phones
             </button>
           </div>
         </div>
@@ -149,9 +243,7 @@ export default function AdminPage() {
                   <p className="font-display text-lg font-bold text-ivory/55">
                     {totalVotesForCat}
                   </p>
-                  <p className="font-body text-[0.65rem] text-ivory/25">
-                    votes
-                  </p>
+                  <p className="font-body text-[0.65rem] text-ivory/25">votes</p>
                 </div>
               </div>
 
@@ -217,7 +309,7 @@ export default function AdminPage() {
       </div>
 
       <p className="max-w-3xl mx-auto px-4 mt-10 font-body text-xs text-center text-ivory/20">
-        Results are in-memory and reset on server restart.
+        Votes are stored in Supabase. Export anytime for backups / outreach.
       </p>
     </main>
   );

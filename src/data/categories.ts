@@ -1,7 +1,7 @@
 export type Nominee = {
   id: string;
   name: string;
-  photo: string; // put images in /public/nominees/
+  photo: string;
 };
 
 export type Category = {
@@ -11,30 +11,26 @@ export type Category = {
   nominees: Nominee[];
 };
 
-// ─── ADD YOUR REAL NOMINEES BELOW ───────────────────────────────────────────
-// Photos go in /public/nominees/  (e.g. /public/nominees/john-doe.jpg)
-// Use /nominees/placeholder.jpg as fallback until you have real photos
-// ─────────────────────────────────────────────────────────────────────────────
-
+/**
+ * Populated from the nomination form CSV (22 rows).
+ * Each CSV upload is matched 1:1 to its image via submission timestamp.
+ */
 export const categories: Category[] = [
   {
     id: "face-itl-male",
     title: "Face of ITL (Male)",
     emoji: "👑",
-    nominees: [
-      { id: "fim-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "fim-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "fim-3", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-    ],
+    nominees: [],
   },
   {
     id: "face-itl-female",
     title: "Face of ITL (Female)",
     emoji: "👑",
     nominees: [
-      { id: "fif-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "fif-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "fif-3", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n11", name: "Stella Frimponmaah", photo: "/nominees/11-stella-frimponmaah.webp" },
+      { id: "n14", name: "Juliet Mensah", photo: "/nominees/14-juliet-mensah.jpg" },
+      { id: "n16", name: "Ohemaa", photo: "/nominees/16-ohemaa.jpeg" },
+      { id: "n17", name: "Precious Yeboah Ati", photo: "/nominees/17-precious-yeboah-ati.jpg" },
     ],
   },
   {
@@ -42,8 +38,9 @@ export const categories: Category[] = [
     title: "Most Hardworking Executive (Male)",
     emoji: "💼",
     nominees: [
-      { id: "hem-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "hem-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n01", name: "Frimpong", photo: "/nominees/01-frimpong.jpg" },
+      { id: "n07", name: "Mensah Peter Ababio", photo: "/nominees/07-mensah-peter-ababio.jpg" },
+      { id: "n08", name: "Peter Ababio Mensah", photo: "/nominees/08-peter-ababio-mensah.jpg" },
     ],
   },
   {
@@ -51,8 +48,8 @@ export const categories: Category[] = [
     title: "Most Hardworking Executive (Female)",
     emoji: "💼",
     nominees: [
-      { id: "hef-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "hef-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n18", name: "Precious Yeboah Ati", photo: "/nominees/18-precious-yeboah-ati.jpg" },
+      { id: "n22", name: "Sarah Seidu", photo: "/nominees/22-sarah-seidu.jpg" },
     ],
   },
   {
@@ -60,9 +57,7 @@ export const categories: Category[] = [
     title: "Gentleman of the Year",
     emoji: "🎩",
     nominees: [
-      { id: "goty-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "goty-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "goty-3", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n09", name: "Peter Ababio Mensah", photo: "/nominees/09-peter-ababio-mensah.jpg" },
     ],
   },
   {
@@ -70,8 +65,7 @@ export const categories: Category[] = [
     title: "Lady of the Year",
     emoji: "🌹",
     nominees: [
-      { id: "loty-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "loty-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n20", name: "Precious Yeboah Ati", photo: "/nominees/20-precious-yeboah-ati.jpg" },
     ],
   },
   {
@@ -79,9 +73,7 @@ export const categories: Category[] = [
     title: "Best Pal of the Year (Male)",
     emoji: "🤝",
     nominees: [
-      { id: "bpm-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "bpm-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "bpm-3", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n12", name: "Elikem and Nathaniel", photo: "/nominees/12-elikem-and-nathaniel.jpg" },
     ],
   },
   {
@@ -89,8 +81,12 @@ export const categories: Category[] = [
     title: "Best Pal of the Year (Female)",
     emoji: "🤝",
     nominees: [
-      { id: "bpf-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "bpf-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n13", name: "Christabel and Juliet", photo: "/nominees/13-christabel-and-juliet.jpg" },
+      {
+        id: "n21",
+        name: "Blessing Antwiwaa Kwarteng",
+        photo: "/nominees/21-blessing-antwiwaa-kwarteng.jpg",
+      },
     ],
   },
   {
@@ -98,9 +94,12 @@ export const categories: Category[] = [
     title: "Best Department",
     emoji: "🏆",
     nominees: [
-      { id: "bd-1", name: "Add Department", photo: "/nominees/placeholder.jpg" },
-      { id: "bd-2", name: "Add Department", photo: "/nominees/placeholder.jpg" },
-      { id: "bd-3", name: "Add Department", photo: "/nominees/placeholder.jpg" },
+      { id: "n02", name: "Prayer Team", photo: "/nominees/02-prayer-team.jpg" },
+      {
+        id: "n04",
+        name: "Content Creation and Blogging",
+        photo: "/nominees/04-content-creation-and-blogging.jpeg",
+      },
     ],
   },
   {
@@ -108,37 +107,30 @@ export const categories: Category[] = [
     title: "Most Popular Executive",
     emoji: "⭐",
     nominees: [
-      { id: "mpe-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "mpe-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n05", name: "Apostle Dove", photo: "/nominees/05-apostle-dove.png" },
+      { id: "n10", name: "Gelina Duah Tuffour", photo: "/nominees/10-gelina-duah-tuffour.jpg" },
+      { id: "n15", name: "Christabel Nimako", photo: "/nominees/15-christabel-nimako.jpg" },
+      { id: "n19", name: "Precious Yeboah Ati", photo: "/nominees/19-precious-yeboah-ati.jpg" },
     ],
   },
   {
     id: "most-punctual-prayer",
     title: "Most Punctual & Active in Prayer Meetings",
     emoji: "🙏",
-    nominees: [
-      { id: "mpp-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "mpp-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "mpp-3", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-    ],
+    nominees: [],
   },
   {
     id: "most-fashionable",
     title: "Most Fashionable",
     emoji: "✨",
-    nominees: [
-      { id: "mf-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "mf-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-    ],
+    nominees: [],
   },
   {
     id: "most-sociable",
     title: "Most Sociable",
     emoji: "🥂",
     nominees: [
-      { id: "ms-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "ms-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "ms-3", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n03", name: "Elvis Konadu", photo: "/nominees/03-elvis-konadu.png" },
     ],
   },
   {
@@ -146,8 +138,10 @@ export const categories: Category[] = [
     title: "Most Jovial Person",
     emoji: "😄",
     nominees: [
-      { id: "mj-1", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
-      { id: "mj-2", name: "Add Nominee", photo: "/nominees/placeholder.jpg" },
+      { id: "n06", name: "Elvis Konadu", photo: "/nominees/06-elvis-konadu.png" },
     ],
   },
 ];
+
+/** Categories that currently have nominees (used for voting). */
+export const voteCategories = categories.filter((c) => c.nominees.length > 0);

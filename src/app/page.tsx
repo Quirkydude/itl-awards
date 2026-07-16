@@ -3,12 +3,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { categories } from "@/data/categories";
+import VotingCountdown from "@/components/VotingCountdown";
+import { isVotingOpen } from "@/lib/votingDeadline";
 
 export default function HomePage() {
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    setOpen(isVotingOpen());
+    const id = setInterval(() => setOpen(isVotingOpen()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <main className="relative">
-      {/* ── Hero ── */}
       <section className="relative min-h-[100svh] flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
         <div
           aria-hidden
@@ -77,12 +87,27 @@ export default function HomePage() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-8 w-full flex justify-center"
+          >
+            <VotingCountdown />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="mt-10 flex flex-col items-center gap-4"
           >
-            <Link href="/verify">
-              <button className="btn-gold">Cast your vote</button>
-            </Link>
+            {open ? (
+              <Link href="/verify">
+                <button className="btn-gold">Cast your vote</button>
+              </Link>
+            ) : (
+              <button className="btn-gold" disabled>
+                Voting closed
+              </button>
+            )}
             <a
               href="#categories"
               className="font-body text-xs tracking-widest uppercase text-ivory/35 hover:text-champagne/70 transition-colors"
@@ -93,7 +118,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Categories ── */}
       <section id="categories" className="relative px-6 pb-24 pt-8">
         <div className="mx-auto max-w-3xl">
           <div className="text-center mb-12">
@@ -123,12 +147,20 @@ export default function HomePage() {
           </ol>
 
           <div className="mt-14 flex flex-col items-center gap-3">
-            <Link href="/verify">
-              <button className="btn-gold">Cast your vote</button>
-            </Link>
-            <p className="font-body text-xs text-ivory/35 text-center max-w-xs">
-              Verify your phone number first. Each number votes once.
-            </p>
+            {open ? (
+              <>
+                <Link href="/verify">
+                  <button className="btn-gold">Cast your vote</button>
+                </Link>
+                <p className="font-body text-xs text-ivory/35 text-center max-w-xs">
+                  Verify your phone number first. Each number votes once.
+                </p>
+              </>
+            ) : (
+              <p className="font-body text-sm text-ivory/40 text-center">
+                Voting ended Jul 23 at 11:59 PM.
+              </p>
+            )}
           </div>
         </div>
       </section>

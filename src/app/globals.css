@@ -169,47 +169,73 @@ body::after {
 input[type="text"],
 input[type="tel"],
 input[type="number"],
-input[type="password"] {
-  background: rgba(28, 16, 10, 0.9);
-  border: 1px solid rgba(232, 200, 122, 0.22);
-  color: var(--color-ivory);
+input[type="password"],
+.verify-input,
+.otp-field {
+  background: #f7f0e6;
+  border: 2px solid rgba(201, 162, 39, 0.55);
+  color: #120a06;
   padding: 0.9rem 1.1rem;
   border-radius: 12px;
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
   width: 100%;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-text-fill-color: #120a06;
+  caret-color: #8a6e18;
 }
 
-input:focus {
-  border-color: var(--color-champagne);
-  box-shadow: 0 0 0 3px rgba(232, 200, 122, 0.12);
+input:focus,
+.verify-input:focus,
+.otp-field:focus {
+  border-color: #c9a227;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.25);
 }
 
-input::placeholder {
-  color: rgba(247, 240, 230, 0.3);
+input::placeholder,
+.verify-input::placeholder,
+.otp-field::placeholder {
+  color: rgba(18, 10, 6, 0.35);
+  -webkit-text-fill-color: rgba(18, 10, 6, 0.35);
+  font-weight: 500;
 }
 
-.otp-input {
-  width: 2.75rem;
-  height: 3.25rem;
+/* Primary OTP field — large + high contrast for mobile autofill */
+.otp-field {
   text-align: center;
-  font-size: 1.35rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  letter-spacing: 0.35em;
   font-family: var(--font-display);
-  background: rgba(28, 16, 10, 0.95);
-  border: 1px solid rgba(232, 200, 122, 0.25);
-  color: var(--color-champagne);
-  border-radius: 10px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  padding: 0;
+  font-weight: 700;
+  padding: 1rem 1rem;
 }
 
-.otp-input:focus {
-  border-color: var(--color-champagne);
-  box-shadow: 0 0 0 3px rgba(232, 200, 122, 0.15);
+.otp-slot {
+  width: 2.5rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(232, 200, 122, 0.22);
+  background: rgba(28, 16, 10, 0.65);
+  color: #f7f0e6;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.otp-slot-filled {
+  border-color: rgba(232, 200, 122, 0.55);
+  background: rgba(232, 200, 122, 0.12);
+  color: #e8c87a;
+}
+
+.otp-slot-active {
+  border-color: #e8c87a;
+  box-shadow: 0 0 0 2px rgba(232, 200, 122, 0.2);
 }
 
 /* ── Surfaces ── */

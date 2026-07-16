@@ -16,17 +16,23 @@ export default function VerifyPage() {
 
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhoneLocal] = useState(storedPhone || "");
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otpCode, setOtpCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
 
-  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const otpInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (countdown <= 0) return;
     const t = setTimeout(() => setCountdown((c) => c - 1), 1000);
     return () => clearTimeout(t);
   }, [countdown]);
+
+  useEffect(() => {
+    if (step !== "otp") return;
+    const t = setTimeout(() => otpInputRef.current?.focus(), 150);
+    return () => clearTimeout(t);
+  }, [step]);
 
   async function handleSendOTP() {
     const cleaned = phone.replace(/\s/g, "");
@@ -45,10 +51,10 @@ export default function VerifyPage() {
       if (!res.ok) throw new Error(data.error);
 
       setPhone(cleaned);
+      setOtpCode("");
       setStep("otp");
       setCountdown(60);
       toast.success("Code sent to your phone");
-      setTimeout(() => otpRefs.current[0]?.focus(), 100);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Failed to send code");
     } finally {
@@ -56,22 +62,13 @@ export default function VerifyPage() {
     }
   }
 
-  function handleOtpChange(index: number, value: string) {
-    if (!/^\d*$/.test(value)) return;
-    const next = [...otp];
-    next[index] = value.slice(-1);
-    setOtp(next);
-    if (value && index < 5) otpRefs.current[index + 1]?.focus();
+  function handleOtpChange(raw: string) {
+    const digits = raw.replace(/\D/g, "").slice(0, 6);
+    setOtpCode(digits);
   }
 
-  function handleOtpKeyDown(index: number, e: React.KeyboardEvent) {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      otpRefs.current[index - 1]?.focus();
-    }
-  }
-
-  async function handleVerifyOTP() {
-    const code = otp.join("");
+  async function handleVerifyOTP(codeOverride?: string) {
+    const code = (codeOverride ?? otpCode).trim();
     if (code.length < 6) {
       toast.error("Enter the full 6-digit code");
       return;
@@ -98,7 +95,7 @@ export default function VerifyPage() {
 
   async function handleResend() {
     if (countdown > 0) return;
-    setOtp(["", "", "", "", "", ""]);
+    setOtpCode("");
     setLoading(true);
     try {
       const res = await fetch("/api/send-otp", {
@@ -110,7 +107,7 @@ export default function VerifyPage() {
       if (!res.ok) throw new Error(data.error);
       setCountdown(60);
       toast.success("New code sent");
-      setTimeout(() => otpRefs.current[0]?.focus(), 100);
+      setTimeout(() => otpInputRef.current?.focus(), 100);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Failed to resend");
     } finally {
@@ -169,11 +166,14 @@ export default function VerifyPage() {
                 <input
                   id="phone"
                   type="tel"
+                  name="tel"
+                  autoComplete="tel"
                   value={phone}
                   onChange={(e) => setPhoneLocal(e.target.value)}
                   placeholder="0244 123 456"
                   onKeyDown={(e) => e.key === "Enter" && handleSendOTP()}
                   autoFocus
+                  className="verify-input"
                 />
                 <p className="mt-2 text-xs text-ivory/30">Ghana numbers (e.g. 0244 …)</p>
               </div>
@@ -191,16 +191,12 @@ export default function VerifyPage() {
               className="flex flex-col gap-6"
             >
               <div className="text-center">
-                <p className="font-body text-sm text-ivory/55 mb-1">
-                  Code sent to
-                </p>
-                <p className="font-display text-xl font-semibold text-champagne">
-                  {phone}
-                </p>
+                <p className="font-body text-sm text-ivory/55 mb-1">Code sent to</p>
+                <p className="font-display text-xl font-semibold text-champagne">{phone}</p>
                 <button
                   onClick={() => {
                     setStep("phone");
-                    setOtp(["", "", "", "", "", ""]);
+                    setOtpCode("");
                   }}
                   className="mt-2 text-xs text-champagne/50 underline hover:text-champagne"
                 >
@@ -209,32 +205,56 @@ export default function VerifyPage() {
               </div>
 
               <div>
-                <label className="block font-body text-[0.65rem] uppercase tracking-[0.2em] text-champagne/65 mb-3 text-center">
+                <label
+                  htmlFor="otp"
+                  className="block font-body text-[0.65rem] uppercase tracking-[0.2em] text-champagne/65 mb-3 text-center"
+                >
                   Enter 6-digit code
                 </label>
-                <div className="flex gap-2 justify-center">
-                  {otp.map((digit, i) => (
-                    <input
+
+                {/* Single field — required for SMS autofill on iOS/Android */}
+                <input
+                  ref={otpInputRef}
+                  id="otp"
+                  name="one-time-code"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  autoComplete="one-time-code"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  enterKeyHint="done"
+                  maxLength={6}
+                  value={otpCode}
+                  onChange={(e) => handleOtpChange(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && otpCode.length === 6) handleVerifyOTP();
+                  }}
+                  placeholder="••••••"
+                  className="otp-field"
+                  aria-label="6-digit verification code"
+                />
+
+                {/* Visual digit slots (read-only mirror) */}
+                <div className="mt-3 flex gap-2 justify-center" aria-hidden>
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div
                       key={i}
-                      ref={(el) => {
-                        otpRefs.current[i] = el;
-                      }}
-                      type="text"
-                      inputMode="numeric"
-                      value={digit}
-                      onChange={(e) => handleOtpChange(i, e.target.value)}
-                      onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                      className="otp-input"
-                      maxLength={1}
-                    />
+                      className={`otp-slot ${otpCode[i] ? "otp-slot-filled" : ""} ${
+                        otpCode.length === i ? "otp-slot-active" : ""
+                      }`}
+                    >
+                      {otpCode[i] ?? ""}
+                    </div>
                   ))}
                 </div>
               </div>
 
               <button
                 className="btn-gold w-full"
-                onClick={handleVerifyOTP}
-                disabled={loading || otp.join("").length < 6}
+                onClick={() => handleVerifyOTP()}
+                disabled={loading || otpCode.length < 6}
               >
                 {loading ? "Verifying…" : "Verify & continue"}
               </button>

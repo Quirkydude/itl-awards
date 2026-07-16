@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useVoteStore } from "@/store/voteStore";
-import { categories } from "@/data/categories";
+import { voteCategories as categories } from "@/data/categories";
 import NomineeCard from "@/components/NomineeCard";
 import VoteSummary from "@/components/VoteSummary";
 import toast from "react-hot-toast";
@@ -138,12 +138,12 @@ export default function VotePage() {
             </div>
 
             <div
-              className={`grid gap-3 mb-10 ${
-                current.nominees.length === 2
-                  ? "grid-cols-2"
-                  : current.nominees.length === 3
-                    ? "grid-cols-3"
-                    : "grid-cols-2 sm:grid-cols-4"
+              className={`grid gap-3 sm:gap-4 mb-10 ${
+                current.nominees.length === 1
+                  ? "grid-cols-1 max-w-xs mx-auto"
+                  : current.nominees.length === 2
+                    ? "grid-cols-2"
+                    : "grid-cols-2 sm:grid-cols-3"
               }`}
             >
               {current.nominees.map((nominee) => (

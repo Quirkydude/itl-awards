@@ -1,15 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateOTP } from "@/lib/arkesel";
-import { hasVoted } from "@/lib/otpStore";
+import { hasVoted } from "@/lib/voteStore";
+import { isVotingOpen } from "@/lib/votingDeadline";
 
 export async function POST(req: NextRequest) {
   try {
+    if (!isVotingOpen()) {
+      return NextResponse.json(
+        { error: "Voting has closed. Thank you for your interest." },
+        { status: 403 }
+      );
+    }
+
     const { phone } = await req.json();
     if (!phone || phone.length < 9) {
       return NextResponse.json({ error: "Valid phone number required" }, { status: 400 });
     }
 
-    if (hasVoted(phone)) {
+    if (await hasVoted(phone)) {
       return NextResponse.json(
         { error: "This number has already voted. Each number can only vote once." },
         { status: 403 }
