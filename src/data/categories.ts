@@ -31,7 +31,7 @@ export const categories: Category[] = [
     nominees: [
       { id: "n11", name: "Stella Frimponmaah", photo: "/nominees/11-stella-frimponmaah.webp" },
       { id: "n14", name: "Juliet Mensah", photo: "/nominees/14-juliet-mensah.jpg" },
-      { id: "n16", name: "Ohemaa", photo: "/nominees/16-ohemaa.jpeg" },
+      { id: "n16", name: "Ohemaa", photo: "/nominees/16-ohemaa.jpg" },
       { id: "n17", name: "Precious Yeboah Ati", photo: "/nominees/17-precious-yeboah-ati.jpg" },
     ],
   },
@@ -89,7 +89,7 @@ export const categories: Category[] = [
       {
         id: "n21",
         name: "Blessing and Sarah",
-        photo: "/nominees/21-blessing-antwiwaa-kwarteng.jpg",
+        photo: "/nominees/21-blessing-antwiwaa-kwarteng.png",
       },
     ],
   },
