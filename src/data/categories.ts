@@ -171,7 +171,7 @@ export const categories: Category[] = [
       { id: "n03", name: "Elvis Konadu", photo: "/nominees/03-elvis-konadu.png" },
       { id: "n38", name: "Kingsley", photo: "/nominees/38-Kingsley.png" },
       { id: "n39", name: "Elikem", photo: "/nominees/39-Elikem.png" },
-
+      { id: "n27", name: "Berry", photo: "/nominees/27-Berry.png" },
     ],
   },
   {
