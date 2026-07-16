@@ -11,14 +11,58 @@ import toast from "react-hot-toast";
 
 export default function VotePage() {
   const router = useRouter();
-  const { isVerified, votes, setVote, currentCategoryIndex, setCurrentIndex, phone } =
-    useVoteStore();
+  const {
+    isVerified,
+    votes,
+    setVote,
+    currentCategoryIndex,
+    setCurrentIndex,
+    setPhone,
+    setVerified,
+    resetAfterSubmission,
+  } = useVoteStore();
   const [showSummary, setShowSummary] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
 
   useEffect(() => {
-    if (!isVerified) router.replace("/verify");
-  }, [isVerified, router]);
+    let active = true;
+
+    async function checkSession() {
+      try {
+        const res = await fetch("/api/verification-session", {
+          cache: "no-store",
+        });
+        const data = await res.json();
+        if (!active) return;
+
+        if (data.submitted) {
+          resetAfterSubmission();
+          router.replace("/done");
+          return;
+        }
+        if (!res.ok || !data.verified || !data.phone) {
+          setVerified(false);
+          router.replace("/verify");
+          return;
+        }
+
+        setPhone(data.phone);
+        setVerified(true);
+      } catch {
+        if (active) {
+          toast.error("Could not restore your ballot. Check your connection.");
+        }
+      } finally {
+        if (active) setCheckingSession(false);
+      }
+    }
+
+    checkSession();
+    return () => {
+      active = false;
+    };
+  }, [resetAfterSubmission, router, setPhone, setVerified]);
 
   const total = categories.length;
   const current = categories[currentCategoryIndex];
@@ -63,10 +107,11 @@ export default function VotePage() {
       const res = await fetch("/api/submit-votes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, votes }),
+        body: JSON.stringify({ votes }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
+      resetAfterSubmission();
       router.push("/done");
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Submission failed. Try again.");
@@ -75,7 +120,16 @@ export default function VotePage() {
     }
   }
 
-  if (!isVerified) return null;
+  if (checkingSession || !isVerified) {
+    return (
+      <main className="min-h-[100svh] flex items-center justify-center px-6">
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-8 w-8 rounded-full border-2 border-champagne/20 border-t-champagne animate-spin" />
+          <p className="font-body text-sm text-ivory/45">Restoring your ballot…</p>
+        </div>
+      </main>
+    );
+  }
 
   if (showSummary) {
     return (

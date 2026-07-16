@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyArkeselOTP } from "@/lib/arkesel";
 import { hasVoted } from "@/lib/voteStore";
+import { setVerificationCookie } from "@/lib/verificationSession";
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,7 +19,9 @@ export async function POST(req: NextRequest) {
 
     await verifyArkeselOTP(phone, code);
 
-    return NextResponse.json({ success: true });
+    const response = NextResponse.json({ success: true });
+    setVerificationCookie(response, phone);
+    return response;
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Something went wrong";
     return NextResponse.json({ error: message }, { status: 400 });

@@ -3,6 +3,10 @@ import { sendSMS } from "@/lib/arkesel";
 import { hasVoted, saveVote, getAllVotes, buildTally } from "@/lib/voteStore";
 import { voteCategories as categories } from "@/data/categories";
 import { isVotingOpen } from "@/lib/votingDeadline";
+import {
+  clearVerificationCookie,
+  getVerifiedPhone,
+} from "@/lib/verificationSession";
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,10 +17,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { phone, votes } = await req.json();
+    const phone = getVerifiedPhone(req);
+    if (!phone) {
+      return NextResponse.json(
+        { error: "Your verification has expired. Verify your phone again." },
+        { status: 401 }
+      );
+    }
 
-    if (!phone || !votes) {
-      return NextResponse.json({ error: "Phone and votes required" }, { status: 400 });
+    const { votes } = await req.json();
+    if (!votes || typeof votes !== "object") {
+      return NextResponse.json({ error: "Votes are required" }, { status: 400 });
     }
 
     if (await hasVoted(phone)) {
@@ -43,7 +54,9 @@ export async function POST(req: NextRequest) {
       console.error("Thank-you SMS failed:", smsErr);
     }
 
-    return NextResponse.json({ success: true });
+    const response = NextResponse.json({ success: true });
+    clearVerificationCookie(response);
+    return response;
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Something went wrong";
     const status = message.includes("already voted") ? 403 : 500;

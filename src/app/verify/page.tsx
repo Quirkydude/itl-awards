@@ -18,9 +18,41 @@ export default function VerifyPage() {
   const [phone, setPhoneLocal] = useState(storedPhone || "");
   const [otpCode, setOtpCode] = useState("");
   const [loading, setLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
   const [countdown, setCountdown] = useState(0);
 
   const otpInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    async function restoreSession() {
+      try {
+        const res = await fetch("/api/verification-session", {
+          cache: "no-store",
+        });
+        const data = await res.json();
+        if (!active || !res.ok) return;
+
+        if (data.submitted) {
+          router.replace("/done");
+          return;
+        }
+        if (data.verified && data.phone) {
+          setPhone(data.phone);
+          setVerified(true);
+          router.replace("/vote");
+        }
+      } finally {
+        if (active) setCheckingSession(false);
+      }
+    }
+
+    restoreSession();
+    return () => {
+      active = false;
+    };
+  }, [router, setPhone, setVerified]);
 
   useEffect(() => {
     if (countdown <= 0) return;
@@ -113,6 +145,17 @@ export default function VerifyPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (checkingSession) {
+    return (
+      <main className="min-h-[100svh] flex items-center justify-center px-6">
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-8 w-8 rounded-full border-2 border-champagne/20 border-t-champagne animate-spin" />
+          <p className="font-body text-sm text-ivory/45">Restoring your ballot…</p>
+        </div>
+      </main>
+    );
   }
 
   return (
