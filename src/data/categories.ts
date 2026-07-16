@@ -25,6 +25,10 @@ export const categories: Category[] = [
       { id: "n30", name: "Boadi Agyemang Sarfo Marcus", photo: "/nominees/30-Boadi-Agyemang-Sarfo-Marcus.jpg" },
       { id: "n32", name: "Nana", photo: "/nominees/32-Nana.png" },
       { id: "n33", name: "Maxwell", photo: "/nominees/33-Maxwell.png" },
+      { id: "n35", name: "Nana Kay", photo: "/nominees/35-Nana-Kay.png" },
+      { id: "n36", name: "Prince", photo: "/nominees/36-Prince.png" },
+      { id: "n37", name: "Christian", photo: "/nominees/37-Christian.png" },
+      { id: "n39", name: "Elikem", photo: "/nominees/39-Elikem.png" },
     ],
   },
   {
@@ -34,7 +38,7 @@ export const categories: Category[] = [
     nominees: [
       { id: "n11", name: "Stella Frimponmaah", photo: "/nominees/11-stella-frimponmaah.webp" },
       { id: "n14", name: "Juliet Mensah", photo: "/nominees/14-juliet-mensah.jpg" },
-      { id: "n16", name: "Ohemaa", photo: "/nominees/16-ohemaa.jpg" },
+      { id: "n16", name: "Ohemaa", photo: "/nominees/16-ohemaa.jpeg" },
       { id: "n17", name: "Precious Yeboah Ati", photo: "/nominees/17-precious-yeboah-ati.jpg" },
       { id: "n31", name: "Sandra Gah", photo: "/nominees/31-Sandra-Gah.jpeg" },
     ],
@@ -47,6 +51,9 @@ export const categories: Category[] = [
       { id: "n01", name: "Frimpong", photo: "/nominees/01-frimpong.jpg" },
       { id: "n08", name: "Peter Ababio Mensah", photo: "/nominees/08-peter-ababio-mensah.jpg" },
       { id: "n30", name: "Boadi Agyemang Sarfo Marcus", photo: "/nominees/30-Boadi-Agyemang-Sarfo-Marcus.jpg" },
+      { id: "n37", name: "Christian", photo: "/nominees/37-Christian.png" },
+      { id: "n38", name: "Kingsley", photo: "/nominees/38-Kingsley.png" },
+
     ],
   },
   {
@@ -66,6 +73,8 @@ export const categories: Category[] = [
       { id: "n09", name: "Peter Ababio Mensah", photo: "/nominees/09-peter-ababio-mensah.jpg" },
       { id: "n23", name: "Frimpong", photo: "/nominees/01-frimpong.jpg" },
       { id: "n24", name: "Nana Appiah", photo: "/nominees/24-Nana-Appiah.png" },
+      { id: "n34", name: "Prince", photo: "/nominees/34-Prince.png" },
+      { id: "n26", name: "Sammy", photo: "/nominees/26-Sammy.png" },
     ],
   },
   {
@@ -138,9 +147,12 @@ export const categories: Category[] = [
     title: "Most Fashionable",
     emoji: "✨",
     nominees: [
-      { id: "n26", name: "Ohemaa", photo: "/nominees/26-Ohemaa.webp" },
+      { id: "n16", name: "Ohemaa", photo: "/nominees/16-Ohemaa.jpeg" },
       { id: "n27", name: "Berry", photo: "/nominees/27-Berry.png" },
       { id: "n28", name: "Raphael", photo: "/nominees/28-Raphael.png" },
+      { id: "n36", name: "Prince", photo: "/nominees/36-Prince.png" },
+      { id: "n26", name: "Sammy", photo: "/nominees/26-Sammy.png" },
+
     ],
   },
   {
@@ -149,6 +161,9 @@ export const categories: Category[] = [
     emoji: "🥂",
     nominees: [
       { id: "n03", name: "Elvis Konadu", photo: "/nominees/03-elvis-konadu.png" },
+      { id: "n38", name: "Kingsley", photo: "/nominees/38-Kingsley.png" },
+      { id: "n39", name: "Elikem", photo: "/nominees/39-Elikem.png" },
+
     ],
   },
   {
