@@ -22,6 +22,9 @@ export const categories: Category[] = [
     emoji: "👑",
     nominees: [
       { id: "n23", name: "Raphael", photo: "/nominees/28-Raphael.png" },
+      { id: "n30", name: "Boadi Agyemang Sarfo Marcus", photo: "/nominees/30-Boadi-Agyemang-Sarfo-Marcus.jpg" },
+      { id: "n32", name: "Nana", photo: "/nominees/32-Nana.png" },
+      { id: "n33", name: "Maxwell", photo: "/nominees/33-Maxwell.png" },
     ],
   },
   {
@@ -33,6 +36,7 @@ export const categories: Category[] = [
       { id: "n14", name: "Juliet Mensah", photo: "/nominees/14-juliet-mensah.jpg" },
       { id: "n16", name: "Ohemaa", photo: "/nominees/16-ohemaa.jpg" },
       { id: "n17", name: "Precious Yeboah Ati", photo: "/nominees/17-precious-yeboah-ati.jpg" },
+      { id: "n31", name: "Sandra Gah", photo: "/nominees/31-Sandra-Gah.jpeg" },
     ],
   },
   {
@@ -42,6 +46,7 @@ export const categories: Category[] = [
     nominees: [
       { id: "n01", name: "Frimpong", photo: "/nominees/01-frimpong.jpg" },
       { id: "n08", name: "Peter Ababio Mensah", photo: "/nominees/08-peter-ababio-mensah.jpg" },
+      { id: "n30", name: "Boadi Agyemang Sarfo Marcus", photo: "/nominees/30-Boadi-Agyemang-Sarfo-Marcus.jpg" },
     ],
   },
   {
@@ -70,6 +75,7 @@ export const categories: Category[] = [
     nominees: [
       { id: "n20", name: "Precious Yeboah Ati", photo: "/nominees/20-precious-yeboah-ati.jpg" },
       { id: "n29", name: "Christabel", photo: "/nominees/29-Christabel.png" },
+      { id: "n31", name: "Sandra Gah", photo: "/nominees/31-Sandra-Gah.jpeg" },
     ],
   },
   {
@@ -115,6 +121,7 @@ export const categories: Category[] = [
       { id: "n10", name: "Gelina Duah Tuffour", photo: "/nominees/10-gelina-duah-tuffour.jpg" },
       { id: "n15", name: "Christabel Nimako", photo: "/nominees/15-christabel-nimako.jpg" },
       { id: "n19", name: "Precious Yeboah Ati", photo: "/nominees/19-precious-yeboah-ati.jpg" },
+      { id: "n30", name: "Boadi Agyemang Sarfo Marcus", photo: "/nominees/30-Boadi-Agyemang-Sarfo-Marcus.jpg" },
     ],
   },
   {
