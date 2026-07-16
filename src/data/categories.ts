@@ -20,7 +20,9 @@ export const categories: Category[] = [
     id: "face-itl-male",
     title: "Face of ITL (Male)",
     emoji: "👑",
-    nominees: [],
+    nominees: [
+      { id: "n23", name: "Raphael", photo: "/nominees/28-Raphael.png" },
+    ],
   },
   {
     id: "face-itl-female",
@@ -39,7 +41,6 @@ export const categories: Category[] = [
     emoji: "💼",
     nominees: [
       { id: "n01", name: "Frimpong", photo: "/nominees/01-frimpong.jpg" },
-      { id: "n07", name: "Mensah Peter Ababio", photo: "/nominees/07-mensah-peter-ababio.jpg" },
       { id: "n08", name: "Peter Ababio Mensah", photo: "/nominees/08-peter-ababio-mensah.jpg" },
     ],
   },
@@ -58,6 +59,8 @@ export const categories: Category[] = [
     emoji: "🎩",
     nominees: [
       { id: "n09", name: "Peter Ababio Mensah", photo: "/nominees/09-peter-ababio-mensah.jpg" },
+      { id: "n23", name: "Frimpong", photo: "/nominees/01-frimpong.jpg" },
+      { id: "n24", name: "Nana Appiah", photo: "/nominees/24-Nana-Appiah.png" },
     ],
   },
   {
@@ -66,6 +69,7 @@ export const categories: Category[] = [
     emoji: "🌹",
     nominees: [
       { id: "n20", name: "Precious Yeboah Ati", photo: "/nominees/20-precious-yeboah-ati.jpg" },
+      { id: "n29", name: "Christabel", photo: "/nominees/29-Christabel.png" },
     ],
   },
   {
@@ -84,7 +88,7 @@ export const categories: Category[] = [
       { id: "n13", name: "Christabel and Juliet", photo: "/nominees/13-christabel-and-juliet.jpg" },
       {
         id: "n21",
-        name: "Blessing Antwiwaa Kwarteng",
+        name: "Blessing and Sarah",
         photo: "/nominees/21-blessing-antwiwaa-kwarteng.jpg",
       },
     ],
@@ -117,13 +121,20 @@ export const categories: Category[] = [
     id: "most-punctual-prayer",
     title: "Most Punctual & Active in Prayer Meetings",
     emoji: "🙏",
-    nominees: [],
+    nominees: [
+      { id: "n24", name: "Makafui", photo: "/nominees/24-Makafui.png" },
+      { id: "n25", name: "Akosua", photo: "/nominees/25-Akosua.png" },
+    ],
   },
   {
     id: "most-fashionable",
     title: "Most Fashionable",
     emoji: "✨",
-    nominees: [],
+    nominees: [
+      { id: "n26", name: "Ohemaa", photo: "/nominees/26-Ohemaa.webp" },
+      { id: "n27", name: "Berry", photo: "/nominees/27-Berry.png" },
+      { id: "n28", name: "Raphael", photo: "/nominees/28-Raphael.png" },
+    ],
   },
   {
     id: "most-sociable",
