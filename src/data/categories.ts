@@ -113,6 +113,7 @@ export const categories: Category[] = [
         name: "Blessing and Sarah",
         photo: "/nominees/21-blessing-antwiwaa-kwarteng.png",
       },
+      { id: "n42", name: "Akosua and Makafui", photo: "/nominees/42-Akosua-Makafui.png" },  
     ],
   },
   {
