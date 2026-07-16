@@ -26,7 +26,7 @@ export const categories: Category[] = [
       { id: "n32", name: "Nana", photo: "/nominees/32-Nana.png" },
       { id: "n33", name: "Maxwell", photo: "/nominees/33-Maxwell.png" },
       { id: "n35", name: "Nana Kay", photo: "/nominees/35-Nana-Kay.png" },
-      { id: "n36", name: "Prince", photo: "/nominees/36-Prince.png" },
+      { id: "n36", name: "Prince", photo: "/nominees/36-prince.png" },
       { id: "n37", name: "Christian", photo: "/nominees/37-Christian.png" },
       { id: "n39", name: "Elikem", photo: "/nominees/39-Elikem.png" },
     ],
@@ -150,7 +150,7 @@ export const categories: Category[] = [
       { id: "n16", name: "Ohemaa", photo: "/nominees/16-Ohemaa.jpeg" },
       { id: "n27", name: "Berry", photo: "/nominees/27-Berry.png" },
       { id: "n28", name: "Raphael", photo: "/nominees/28-Raphael.png" },
-      { id: "n36", name: "Prince", photo: "/nominees/36-Prince.png" },
+      { id: "n36", name: "Prince", photo: "/nominees/36-prince.png" },
       { id: "n26", name: "Sammy", photo: "/nominees/26-Sammy.png" },
 
     ],
