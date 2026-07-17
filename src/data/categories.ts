@@ -140,6 +140,8 @@ export const categories: Category[] = [
       { id: "n15", name: "Christabel Nimako", photo: "/nominees/15-christabel-nimako.jpg" },
       { id: "n19", name: "Precious Yeboah Ati", photo: "/nominees/19-precious-yeboah-ati.jpg" },
       { id: "n30", name: "Boadi Agyemang Sarfo Marcus", photo: "/nominees/30-Boadi-Agyemang-Sarfo-Marcus.jpg" },
+      { id: "n09", name: "Peter Ababio Mensah", photo: "/nominees/09-peter-ababio-mensah.jpg" },
+
     ],
   },
   {
