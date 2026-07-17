@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sendSMS } from "@/lib/arkesel";
 import { hasVoted, saveVote, getAllVotes, buildTally } from "@/lib/voteStore";
-import { voteCategories as categories } from "@/data/categories";
 import { isVotingOpen } from "@/lib/votingDeadline";
 import {
   clearVerificationCookie,
@@ -38,21 +36,6 @@ export async function POST(req: NextRequest) {
     }
 
     await saveVote(phone, votes);
-
-    const votedCount = Object.values(votes as Record<string, string | null>).filter(
-      (v) => v !== null
-    ).length;
-    const totalCategories = categories.length;
-
-    try {
-      await sendSMS(
-        phone,
-        `Thank you for voting at the ITL Cena a la Lus Awards Night! 🎉\n\nYou voted in ${votedCount} of ${totalCategories} categories. We'll see you at the dinner! 🕯️\n\n— Invitation to Light`
-      );
-    } catch (smsErr) {
-      // Vote is already saved — don't fail the request if SMS fails
-      console.error("Thank-you SMS failed:", smsErr);
-    }
 
     const response = NextResponse.json({ success: true });
     clearVerificationCookie(response);

@@ -135,8 +135,8 @@ export default function DonePage() {
         <p className="font-body text-sm text-ivory/40 mb-8">Dinner and Awards Night</p>
 
         <p className="font-body text-sm text-ivory/45 leading-relaxed mb-10 max-w-xs">
-          Thank you for making your voice count. A confirmation has been sent
-          to your phone — we&apos;ll see you at the table.
+          Thank you for making your voice count. Your selections have been
+          recorded securely — we&apos;ll see you at the table.
         </p>
 
         <Link href="/">
