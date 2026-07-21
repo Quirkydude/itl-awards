@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateOTP } from "@/lib/arkesel";
+import { generateOTP } from "@/lib/otp";
 import { hasVoted } from "@/lib/voteStore";
 import { isVotingOpen } from "@/lib/votingDeadline";
 
@@ -24,9 +24,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await generateOTP(phone);
+    const result = await generateOTP(phone);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      ussd_code: result.ussd_code,
+    });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Something went wrong";
     return NextResponse.json({ error: message }, { status: 500 });

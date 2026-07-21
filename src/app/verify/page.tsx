@@ -17,6 +17,7 @@ export default function VerifyPage() {
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhoneLocal] = useState(storedPhone || "");
   const [otpCode, setOtpCode] = useState("");
+  const [ussdCode, setUssdCode] = useState("*928*01#");
   const [loading, setLoading] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
   const [countdown, setCountdown] = useState(0);
@@ -82,11 +83,15 @@ export default function VerifyPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
 
+      if (typeof data.ussd_code === "string" && data.ussd_code.trim()) {
+        setUssdCode(data.ussd_code.trim());
+      }
+
       setPhone(cleaned);
       setOtpCode("");
       setStep("otp");
       setCountdown(60);
-      toast.success("Code sent to your phone");
+      toast.success("Code sent — dial USSD if SMS is delayed");
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Failed to send code");
     } finally {
@@ -137,8 +142,11 @@ export default function VerifyPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
+      if (typeof data.ussd_code === "string" && data.ussd_code.trim()) {
+        setUssdCode(data.ussd_code.trim());
+      }
       setCountdown(60);
-      toast.success("New code sent");
+      toast.success("New code sent — dial USSD if needed");
       setTimeout(() => otpInputRef.current?.focus(), 100);
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : "Failed to resend");
@@ -245,6 +253,18 @@ export default function VerifyPage() {
                 >
                   Change number
                 </button>
+              </div>
+
+              <div className="ussd-prompt" role="note">
+                <p className="font-body text-[0.65rem] uppercase tracking-[0.2em] text-champagne/65 mb-2">
+                  Didn&apos;t get the SMS?
+                </p>
+                <p className="font-body text-sm text-ivory/70 mb-3">
+                  Dial this USSD code on the same phone to view your OTP, then enter it below.
+                </p>
+                <p className="ussd-code" aria-label={`Dial ${ussdCode}`}>
+                  {ussdCode}
+                </p>
               </div>
 
               <div>

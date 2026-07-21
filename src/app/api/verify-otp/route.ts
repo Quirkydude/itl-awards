@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyArkeselOTP } from "@/lib/arkesel";
+import { verifyOTP } from "@/lib/otp";
 import { hasVoted } from "@/lib/voteStore";
 import { setVerificationCookie } from "@/lib/verificationSession";
 
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await verifyArkeselOTP(phone, code);
+    await verifyOTP(phone, code);
 
     const response = NextResponse.json({ success: true });
     setVerificationCookie(response, phone);

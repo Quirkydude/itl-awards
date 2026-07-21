@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import type { NextRequest, NextResponse } from "next/server";
-import { formatPhone } from "@/lib/arkesel";
+import { formatPhone } from "@/lib/phone";
 import { VOTING_ENDS_AT } from "@/lib/votingDeadline";
 
 export const VERIFICATION_COOKIE = "itl_verification";

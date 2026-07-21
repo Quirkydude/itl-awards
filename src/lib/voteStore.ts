@@ -1,4 +1,4 @@
-import { formatPhone } from "@/lib/arkesel";
+import { formatPhone } from "@/lib/phone";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 export type VoteRecord = {

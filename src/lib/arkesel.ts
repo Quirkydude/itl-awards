@@ -1,15 +1,24 @@
+import { formatPhone } from "@/lib/phone";
+
 const ARKESEL_API_KEY = process.env.ARKESEL_API_KEY!;
 const SENDER_ID = process.env.ARKESEL_SENDER_ID ?? "ITL Awards";
 
-/** Format Ghana local numbers (0244…) to 233… for Arkesel */
-export function formatPhone(to: string): string {
-  const cleaned = to.replace(/[\s\-+]/g, "");
-  if (cleaned.startsWith("233")) return cleaned;
-  if (cleaned.startsWith("0")) return "233" + cleaned.slice(1);
-  return cleaned;
-}
+type ArkeselOtpGenerateResponse = {
+  code?: string;
+  message?: string;
+  ussd_code?: string;
+};
+
+type ArkeselOtpVerifyResponse = {
+  code?: string;
+  message?: string;
+};
 
 function headers() {
+  if (!ARKESEL_API_KEY) {
+    throw new Error("ARKESEL_API_KEY is not configured");
+  }
+
   return {
     "api-key": ARKESEL_API_KEY,
     "Content-Type": "application/json",
@@ -17,7 +26,7 @@ function headers() {
 }
 
 /**
- * Arkesel OTP generate — Arkesel creates + delivers the code.
+ * Arkesel OTP generate — Arkesel creates + delivers the code (SMS + USSD retrieve).
  * POST https://sms.arkesel.com/api/otp/generate
  */
 export async function generateOTP(to: string) {
@@ -31,14 +40,14 @@ export async function generateOTP(to: string) {
       length: 6,
       medium: "sms",
       message:
-        "Your ITL Awards Night code is %otp_code%. Valid for %expiry% minutes. Do not share this code.",
+        "Your ITL Awards Night code is %otp_code%. Valid for %expiry% minutes. Dial *928*01# if not received.",
       number,
       sender_id: SENDER_ID.slice(0, 11),
       type: "numeric",
     }),
   });
 
-  const data = await res.json();
+  const data = (await res.json()) as ArkeselOtpGenerateResponse;
   // Success code is "1000"
   if (data.code !== "1000") {
     console.error("Arkesel OTP generate error:", data);
@@ -63,7 +72,7 @@ export async function verifyArkeselOTP(to: string, code: string) {
     }),
   });
 
-  const data = await res.json();
+  const data = (await res.json()) as ArkeselOtpVerifyResponse;
   // Success code is "1100"
   if (data.code !== "1100") {
     console.error("Arkesel OTP verify error:", data);
@@ -74,33 +83,6 @@ export async function verifyArkeselOTP(to: string, code: string) {
           ? "Code expired. Request a new one."
           : data.message || "Verification failed";
     throw new Error(msg);
-  }
-  return data;
-}
-
-/**
- * Bulk SMS gateway — for thank-you / notification messages only.
- * POST https://sms.arkesel.com/api/v2/sms/send
- */
-export async function sendSMS(to: string, message: string) {
-  const formatted = formatPhone(to);
-  // v2 SMS prefers +233… per their docs, but 233… also works; keep + for bulk
-  const recipient = formatted.startsWith("233") ? `+${formatted}` : formatted;
-
-  const res = await fetch("https://sms.arkesel.com/api/v2/sms/send", {
-    method: "POST",
-    headers: headers(),
-    body: JSON.stringify({
-      sender: SENDER_ID.slice(0, 11),
-      message,
-      recipients: [recipient],
-    }),
-  });
-
-  const data = await res.json();
-  if (!res.ok) {
-    console.error("Arkesel SMS error:", data);
-    throw new Error("SMS send failed");
   }
   return data;
 }
