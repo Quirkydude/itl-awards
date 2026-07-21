@@ -247,12 +247,24 @@ input::placeholder,
 }
 
 .ussd-code {
+  display: inline-block;
   font-family: var(--font-display);
   font-size: 1.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: #e8c87a;
   line-height: 1.2;
+  text-decoration: none;
+  border-bottom: 2px solid rgba(232, 200, 122, 0.45);
+  padding-bottom: 0.15rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.ussd-code:hover,
+.ussd-code:focus-visible {
+  color: #f0d78a;
+  border-bottom-color: #e8c87a;
+  outline: none;
 }
 
 /* ── Surfaces ── */

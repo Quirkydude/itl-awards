@@ -260,11 +260,15 @@ export default function VerifyPage() {
                   Didn&apos;t get the SMS?
                 </p>
                 <p className="font-body text-sm text-ivory/70 mb-3">
-                  Dial this USSD code on the same phone to view your OTP, then enter it below.
+                  Tap the code below to open your dialer, then call it to view your OTP.
                 </p>
-                <p className="ussd-code" aria-label={`Dial ${ussdCode}`}>
+                <a
+                  href={`tel:${ussdCode.replace(/#/g, "%23")}`}
+                  className="ussd-code"
+                  aria-label={`Dial ${ussdCode}`}
+                >
                   {ussdCode}
-                </p>
+                </a>
               </div>
 
               <div>
