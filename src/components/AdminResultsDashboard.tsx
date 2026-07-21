@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { voteCategories as categories, type Nominee } from "@/data/categories";
 import type { VoterRecord } from "@/lib/exportResults";
 
@@ -30,6 +30,56 @@ type Entry = {
   percentage: number;
   isLeader: boolean;
 };
+
+type NomineeVoter = {
+  phone: string;
+  displayPhone: string;
+  submittedAt: string;
+  displayDate: string;
+};
+
+function formatDisplayPhone(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.startsWith("233") && digits.length >= 12) {
+    const local = `0${digits.slice(3)}`;
+    return `${local.slice(0, 3)} ${local.slice(3, 6)} ${local.slice(6)}`;
+  }
+  return phone;
+}
+
+function formatVoteDate(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso || "—";
+  return date.toLocaleString("en-GB", {
+    timeZone: "Africa/Accra",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function votersForNominee(
+  raw: VoterRecord[] | undefined,
+  categoryId: string,
+  nomineeId: string
+): NomineeVoter[] {
+  if (!raw?.length) return [];
+
+  return raw
+    .filter((record) => record.votes?.[categoryId] === nomineeId)
+    .map((record) => ({
+      phone: record.phone,
+      displayPhone: formatDisplayPhone(record.phone),
+      submittedAt: record.submittedAt,
+      displayDate: formatVoteDate(record.submittedAt),
+    }))
+    .sort(
+      (a, b) =>
+        new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()
+    );
+}
 
 type Props = {
   data: AdminResultsData;
@@ -132,6 +182,7 @@ export default function AdminResultsDashboard({
   const [sort, setSort] = useState<SortMode>("votes-desc");
   const [density, setDensity] = useState<Density>("comfortable");
   const [showPhotos, setShowPhotos] = useState(true);
+  const [selectedEntry, setSelectedEntry] = useState<Entry | null>(null);
 
   const entries = useMemo<Entry[]>(() => {
     return categories.flatMap((category, categoryIndex) => {
@@ -238,6 +289,35 @@ export default function AdminResultsDashboard({
       }))
       .filter((group) => group.entries.length > 0);
   }, [entries, filteredEntries]);
+
+  const selectedVoters = useMemo(
+    () =>
+      selectedEntry
+        ? votersForNominee(
+            data.raw,
+            selectedEntry.categoryId,
+            selectedEntry.nominee.id
+          )
+        : [],
+    [data.raw, selectedEntry]
+  );
+
+  useEffect(() => {
+    if (!selectedEntry) return;
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setSelectedEntry(null);
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selectedEntry]);
 
   function resetControls() {
     setQuery("");
@@ -474,7 +554,7 @@ export default function AdminResultsDashboard({
             configured nominee entries
           </p>
           <p className="hidden sm:block font-body text-xs text-ivory/25">
-            Zero-vote nominees are included
+            Tap a nominee to audit phones & dates
           </p>
         </div>
 
@@ -536,6 +616,7 @@ export default function AdminResultsDashboard({
                         entry={entry}
                         showPhoto={showPhotos}
                         compact={density === "compact"}
+                        onOpen={() => setSelectedEntry(entry)}
                       />
                     ))}
                   </div>
@@ -567,6 +648,7 @@ export default function AdminResultsDashboard({
                   key={entry.key}
                   entry={entry}
                   showPhoto={showPhotos}
+                  onOpen={() => setSelectedEntry(entry)}
                 />
               ) : (
                 <DirectoryRow
@@ -574,6 +656,7 @@ export default function AdminResultsDashboard({
                   entry={entry}
                   showPhoto={showPhotos}
                   compact={density === "compact"}
+                  onOpen={() => setSelectedEntry(entry)}
                 />
               )
             )}
@@ -585,7 +668,118 @@ export default function AdminResultsDashboard({
           categories · Results stored in Supabase
         </p>
       </div>
+
+      {selectedEntry && (
+        <NomineeVotersPanel
+          entry={selectedEntry}
+          voters={selectedVoters}
+          onClose={() => setSelectedEntry(null)}
+        />
+      )}
     </main>
+  );
+}
+
+function NomineeVotersPanel({
+  entry,
+  voters,
+  onClose,
+}: {
+  entry: Entry;
+  voters: NomineeVoter[];
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="nominee-voters-title"
+    >
+      <button
+        type="button"
+        className="absolute inset-0 bg-black/70 backdrop-blur-[2px]"
+        aria-label="Close voter audit"
+        onClick={onClose}
+      />
+
+      <div
+        className="relative z-10 flex max-h-[88svh] w-full max-w-lg flex-col overflow-hidden surface admin-voter-panel"
+      >
+        <header
+          className="flex items-start gap-3 px-5 py-4"
+          style={{ borderBottom: "1px solid rgba(232,200,122,0.12)" }}
+        >
+          <AdminAvatar nominee={entry.nominee} size={52} />
+          <div className="min-w-0 flex-1">
+            <p className="font-body text-[0.58rem] uppercase tracking-[0.16em] text-champagne/45">
+              Voter audit · {entry.categoryEmoji} {entry.categoryTitle}
+            </p>
+            <h2
+              id="nominee-voters-title"
+              className="mt-0.5 font-display text-xl font-semibold text-champagne truncate"
+            >
+              {entry.nominee.name}
+            </h2>
+            <p className="mt-1 font-body text-xs text-ivory/40">
+              <strong className="text-champagne tabular-nums">{voters.length}</strong>{" "}
+              {voters.length === 1 ? "vote" : "votes"} · phones & timestamps
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="shrink-0 rounded-full px-3 py-1.5 font-body text-xs text-champagne/60 hover:text-champagne hover:bg-champagne/10"
+          >
+            Close
+          </button>
+        </header>
+
+        <div className="overflow-y-auto px-5 py-4">
+          {voters.length === 0 ? (
+            <div className="py-10 text-center">
+              <p className="font-display text-lg italic text-champagne/80">
+                No votes yet
+              </p>
+              <p className="mt-2 font-body text-sm text-ivory/35">
+                Nobody has selected this nominee in this category.
+              </p>
+            </div>
+          ) : (
+            <ul className="flex flex-col gap-2">
+              {voters.map((voter, index) => (
+                <li
+                  key={`${voter.phone}-${voter.submittedAt}-${index}`}
+                  className="flex items-center justify-between gap-3 rounded-xl px-3 py-3"
+                  style={{
+                    background: "rgba(247,240,230,0.03)",
+                    border: "1px solid rgba(232,200,122,0.1)",
+                  }}
+                >
+                  <div className="min-w-0">
+                    <p className="font-body text-[0.58rem] uppercase tracking-[0.14em] text-ivory/25">
+                      #{String(index + 1).padStart(2, "0")}
+                    </p>
+                    <a
+                      href={`tel:+${voter.phone.replace(/\D/g, "")}`}
+                      className="font-display text-base font-semibold text-ivory hover:text-champagne"
+                    >
+                      {voter.displayPhone}
+                    </a>
+                  </div>
+                  <time
+                    dateTime={voter.submittedAt}
+                    className="shrink-0 text-right font-body text-xs text-ivory/40"
+                  >
+                    {voter.displayDate}
+                  </time>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -593,14 +787,20 @@ function NomineeResultRow({
   entry,
   showPhoto,
   compact,
+  onOpen,
 }: {
   entry: Entry;
   showPhoto: boolean;
   compact: boolean;
+  onOpen: () => void;
 }) {
   return (
-    <div
-      className={`relative ${compact ? "px-4 py-2.5" : "rounded-xl px-3 py-3"}`}
+    <button
+      type="button"
+      onClick={onOpen}
+      className={`relative w-full text-left transition-colors ${
+        compact ? "px-4 py-2.5" : "rounded-xl px-3 py-3"
+      } hover:bg-champagne/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-champagne/40`}
       style={{
         background: compact
           ? "transparent"
@@ -608,6 +808,7 @@ function NomineeResultRow({
             ? "rgba(232,200,122,0.075)"
             : "rgba(247,240,230,0.02)",
       }}
+      aria-label={`View voters for ${entry.nominee.name}`}
     >
       <div className="flex items-center gap-3">
         {showPhoto && <AdminAvatar nominee={entry.nominee} size={compact ? 36 : 44} />}
@@ -652,7 +853,7 @@ function NomineeResultRow({
           </p>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -660,19 +861,24 @@ function DirectoryRow({
   entry,
   showPhoto,
   compact,
+  onOpen,
 }: {
   entry: Entry;
   showPhoto: boolean;
   compact: boolean;
+  onOpen: () => void;
 }) {
   return (
-    <div
-      className={`grid grid-cols-[minmax(0,1fr)_auto] md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_90px_80px] gap-3 md:gap-4 items-center px-4 sm:px-5 ${
+    <button
+      type="button"
+      onClick={onOpen}
+      className={`grid w-full grid-cols-[minmax(0,1fr)_auto] md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_90px_80px] gap-3 md:gap-4 items-center px-4 sm:px-5 text-left transition-colors hover:bg-champagne/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-champagne/40 ${
         compact ? "py-2.5" : "py-3.5"
       } border-b border-champagne/10 last:border-0`}
       style={{
         background: entry.isLeader ? "rgba(232,200,122,0.045)" : undefined,
       }}
+      aria-label={`View voters for ${entry.nominee.name}`}
     >
       <div className="flex items-center gap-3 min-w-0">
         {showPhoto && <AdminAvatar nominee={entry.nominee} size={compact ? 34 : 42} />}
@@ -701,25 +907,30 @@ function DirectoryRow({
       <p className="hidden md:block font-body text-xs text-right text-ivory/35 tabular-nums">
         {entry.percentage.toFixed(1)}%
       </p>
-    </div>
+    </button>
   );
 }
 
 function LeaderCard({
   entry,
   showPhoto,
+  onOpen,
 }: {
   entry: Entry;
   showPhoto: boolean;
+  onOpen: () => void;
 }) {
   return (
-    <div
-      className="surface p-4"
+    <button
+      type="button"
+      onClick={onOpen}
+      className="surface p-4 w-full text-left transition-colors hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-champagne/40"
       style={{
         borderRadius: 18,
         background:
           "linear-gradient(145deg, rgba(107,30,42,0.2), rgba(28,16,10,0.78))",
       }}
+      aria-label={`View voters for ${entry.nominee.name}`}
     >
       <div className="flex items-center gap-3">
         {showPhoto && <AdminAvatar nominee={entry.nominee} size={58} />}
@@ -735,8 +946,11 @@ function LeaderCard({
             <strong className="text-champagne">{entry.votes}</strong> votes ·{" "}
             {entry.percentage.toFixed(1)}%
           </p>
+          <p className="mt-2 font-body text-[0.58rem] uppercase tracking-[0.12em] text-champagne/40">
+            Tap to audit voters
+          </p>
         </div>
       </div>
-    </div>
+    </button>
   );
 }
