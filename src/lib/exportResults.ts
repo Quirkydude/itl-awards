@@ -14,7 +14,10 @@ function buildPrintHtml({ totalVoters, tally, generatedAt }: Props) {
   const rows = voteCategories
     .map((cat, i) => {
       const catTally = tally[cat.id] ?? {};
-      const total = Object.values(catTally).reduce((a, b) => a + b, 0);
+      const total = cat.nominees.reduce(
+        (sum, nominee) => sum + (catTally[nominee.id] ?? 0),
+        0
+      );
       const sorted = [...cat.nominees].sort(
         (a, b) => (catTally[b.id] ?? 0) - (catTally[a.id] ?? 0)
       );
@@ -300,7 +303,10 @@ export function exportResultsCsv(tally: Tally, totalVoters: number) {
   const lines = ["Category,Nominee,Votes,Percentage,Total Category Votes,Total Voters"];
   for (const cat of voteCategories) {
     const catTally = tally[cat.id] ?? {};
-    const total = Object.values(catTally).reduce((a, b) => a + b, 0);
+    const total = cat.nominees.reduce(
+      (sum, nominee) => sum + (catTally[nominee.id] ?? 0),
+      0
+    );
     for (const n of cat.nominees) {
       const count = catTally[n.id] ?? 0;
       const pct = total > 0 ? ((count / total) * 100).toFixed(1) : "0.0";

@@ -49,7 +49,6 @@ export const categories: Category[] = [
     title: "Most Hardworking Executive (Male)",
     emoji: "💼",
     nominees: [
-      { id: "n01", name: "Frimpong", photo: "/nominees/01-frimpong.jpg" },
       { id: "n08", name: "Peter Ababio Mensah", photo: "/nominees/08-peter-ababio-mensah.jpg" },
       { id: "n30", name: "Boadi Agyemang Sarfo Marcus", photo: "/nominees/30-Boadi-Agyemang-Sarfo-Marcus.jpg" },
       { id: "n37", name: "Christian", photo: "/nominees/37-Christian.png" },
@@ -73,7 +72,6 @@ export const categories: Category[] = [
     emoji: "🎩",
     nominees: [
       { id: "n09", name: "Peter Ababio Mensah", photo: "/nominees/09-peter-ababio-mensah.jpg" },
-      { id: "n23", name: "Frimpong", photo: "/nominees/01-frimpong.jpg" },
       { id: "n24", name: "Nana Appiah", photo: "/nominees/24-Nana-Appiah.png" },
       { id: "n34", name: "Prince", photo: "/nominees/34-Prince.png" },
       { id: "n26", name: "Sammy", photo: "/nominees/26-Sammy.png" },

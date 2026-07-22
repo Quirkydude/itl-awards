@@ -187,8 +187,9 @@ export default function AdminResultsDashboard({
   const entries = useMemo<Entry[]>(() => {
     return categories.flatMap((category, categoryIndex) => {
       const categoryTally = data.tally[category.id] ?? {};
-      const categoryTotal = Object.values(categoryTally).reduce(
-        (sum, value) => sum + value,
+      // Only count votes for nominees still on the ballot (orphaned IDs stay in DB but don't skew %).
+      const categoryTotal = category.nominees.reduce(
+        (sum, nominee) => sum + (categoryTally[nominee.id] ?? 0),
         0
       );
       const maxVotes = Math.max(
